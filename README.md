@@ -2,8 +2,7 @@
 
 All files show be saved in catkin_ws/src/duckietown_slam
 
-Architecture
-![SlamArchitecture.png](https://github.com/lexxsage/DuckietownSlamDiploma/blob/master/SlamArchitecture.png)
+![plot](SlamArchitecture.jpg)
 
 
 Helpfull urls:
