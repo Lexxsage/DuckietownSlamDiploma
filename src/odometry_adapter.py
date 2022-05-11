@@ -3,11 +3,14 @@ import numpy as np
 
 import sys
 
-def OdometryAdapter():
-    def load_odometry(fileName):
+class OdometryAdapter():
+    def __init__(self):
+        self.fileName = "Text.txt"
+
+    def load_odometry(self):
         sys.setrecursionlimit(100000000)
         #txt file of odometry
-        with open(fileName) as f:
+        with open(self.fileName) as f:
             content = f.readlines()
         vel_left =[]
         vel_right =[]

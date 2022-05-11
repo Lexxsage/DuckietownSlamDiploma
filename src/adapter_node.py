@@ -41,7 +41,7 @@ def OdomtryAdapterNode():
     def callback(event):
         global publisher
         msg = ByteMultiArray()
-        folder = str(init())
+        folder = str(input())
         msg.data
         w, y, theta = OdometryAdapter.load_odometry(folder)
         publisher.publish(msg)
