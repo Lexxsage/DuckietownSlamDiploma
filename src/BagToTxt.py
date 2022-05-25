@@ -8,8 +8,8 @@ import cv2
 
 class BagToTxtConverter():
     def __init__(self):
-        self.bagFile = rosbag.Bag("Test1.bag")
-        self.txtFile = "Text.txt"
+        self.bagFile = rosbag.Bag("TestBag.bag")
+        self.txtFile = "TestBag.txt"
         self.imageCount = 0
 
     def convertOdometryBagToTxt(self):

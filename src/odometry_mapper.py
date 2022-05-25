@@ -21,7 +21,7 @@ class OdometryMapper():
         x_k = x_prev + dt*np.cos(theta_prev)*translational_velocity
         y_k = y_prev + dt*np.sin(theta_prev)*translational_velocity
         theta_k = theta_prev + dt*rotational_velocity
-        theta_k = self.get_theta_value(theta_k)
+        #theta_k = self.get_theta_value(theta_k)
 
         return x_k, y_k, theta_k
 
@@ -35,7 +35,7 @@ class OdometryMapper():
 
         for i in range(len(vel_left)-1):
             #throw in past state and current controls
-            x_k, y_k, theta_k = self.differential_drive(x_new[-1],y_new[-1], theta_new[-1],time_diff[i],vel_left[i],vel_right[i])
+            x_k, y_k, theta_k = self.differential_drive(x_new[i],y_new[i], theta_new[i],time_diff[i],vel_left[i],vel_right[i])
             x_new.append(x_k)
             y_new.append(y_k)
             theta_new.append(theta_k)

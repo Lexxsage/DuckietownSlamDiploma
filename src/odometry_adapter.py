@@ -5,7 +5,7 @@ import sys
 
 class OdometryAdapter():
     def __init__(self):
-        self.fileName = "Text.txt"
+        self.fileName = "TestBag.txt"
 
     def load_odometry(self):
         sys.setrecursionlimit(100000000)
@@ -23,5 +23,6 @@ class OdometryAdapter():
             vel_right.append(right)
             time.append(float(line_split[2])/10**9)
 
+        print()
         time_diff = np.diff(time)
         return vel_left, vel_right, time_diff
