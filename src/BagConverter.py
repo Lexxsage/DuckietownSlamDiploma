@@ -6,7 +6,7 @@ import rosbag
 import cv2
 #from duckietown_utils import rgb_from_ros
 
-class BagToTxtConverter():
+class BagConverter():
     def __init__(self):
         self.bagFile = rosbag.Bag("TestBag.bag")
         self.txtFile = "TestBag.txt"
