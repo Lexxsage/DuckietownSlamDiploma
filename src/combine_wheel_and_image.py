@@ -2,27 +2,15 @@ import numpy as np
 from scipy.interpolate import interp1d
 import pylab as plt
 
-def Interpolator():
-    wheel_file_path = ''
-    image_file_path = ''
-    out_path = ''
+class Interpolator():
+    def __init__(self):
+        self.wheelFile = 'TestBag.txt'
+        self.imageFile = 'Stamp.txt'
+        self.out_path = 'Interpolated_time/'
 
-    def safe_file_paths():
-        global wheel_file_path
-        global image_file_path
-        global out_path
-        wheel_file_path = str(input())
-        image_file_path = str(input())
-        out_path = str(input())
-
-
-    def interpolate():
-        global wheel_file_path
-        global image_file_path
-        global out_path
-
-        wheel_data = np.loadtxt(wheel_file_path)
-        image_time = np.loadtxt(image_file_path)
+    def interpolate(self):
+        wheel_data = np.loadtxt(self.wheelFile )
+        image_time = np.loadtxt(self.imageFile)
 
         l_vel = wheel_data[:,0]
         r_vel = wheel_data[:,1]
@@ -63,7 +51,7 @@ def Interpolator():
         r_vel_interp = r_interp_func(gapless_image_time)
 
         #write  out
-        np.savetxt(out_path+'interpolated_time.txt',np.transpose((has_image.astype(int),gapless_image_time)),
+        np.savetxt(self.out_path+'interpolated_time.txt',np.transpose((has_image.astype(int),gapless_image_time)),
             header='HAS_IMAGE (0=false,1=true), TIME')
-        np.savetxt(out_path+'interpolated_wheel_velocities.txt',np.transpose((l_vel_interp,r_vel_interp)),
+        np.savetxt(self.out_path+'interpolated_wheel_velocities.txt',np.transpose((l_vel_interp,r_vel_interp)),
                    header='Left velocity, right velocity')
