@@ -5,25 +5,24 @@ from images_adapter import ImageAdapter
 from odometry_adapter import OdometryAdapter
 from std_msgs.msg import ByteMultiArray
 
-def ImageAdapterNode():
-    def init():
+class ImageAdapterNode():
+
+    def __init__(self):
         # Initialize the node with rospy
         rospy.init_node('adapter_node')
         # Create publisher
-        publisher = rospy.Publisher("~imageTopic", ByteMultiArray,queue_size=100)
+        self.publisher = rospy.Publisher("~imageTopic", ByteMultiArray,queue_size=100)
+        self.dir = roslib.packages.get_pkg_dir("duckietown_slam", required=True)
+        self.input_folder = "dataset_dt"
 
-    def get_image_dir():
-        DIR = roslib.packages.get_pkg_dir("duckietown_slam", required=True)
 
-    def callback(event):
-        global publisher
+    def callback(self, event):
         msg = ByteMultiArray()
-        input_folder = str(input())
-        folder = DIR + input_folder
+        folder = self.dir + self.input_folder
         msg.data = ImageAdapter.load_all_images_from_folder(folder)
-        publisher.publish(msg)
+        self.publisher.publish(msg)
 
-    def spin_adapter():
+    def spin_adapter(self):
         # Read parameter
         pub_period = rospy.get_param("~pub_period",1.0)
         # Create timer
@@ -31,19 +30,19 @@ def ImageAdapterNode():
         # spin to keep the script for exiting
         rospy.spin()
 
-def OdomtryAdapterNode():
-    def init():
+class OdometryAdapterNode():
+
+    def __init__(self):
         # Initialize the node with rospy
         rospy.init_node('adapter_node')
         # Create publisher
-        publisher = rospy.Publisher("~odometryTopic", ByteMultiArray,queue_size=100)
+        self.publisher = rospy.Publisher("~odometryTopic", ByteMultiArray,queue_size=100)
+        self.folder = "Text.txt"
 
     def callback(event):
-        global publisher
         msg = ByteMultiArray()
-        folder = str(input())
         msg.data
-        w, y, theta = OdometryAdapter.load_odometry(folder)
+        w, y, theta = OdometryAdapter.load_odometry(self.folder)
         publisher.publish(msg)
 
     def spin_adapter():
@@ -56,18 +55,16 @@ def OdomtryAdapterNode():
 
 
 def create_adapter_node(isOdometry):
-    if (isOdometry == 'y'):
+    if (isOdometry):
         OdometryAdapter.init()
         OdometryAdapter.spin_adapter()
     else:
         ImageAdapterNode.init()
-        ImageAdapterNode.get_image_dir()
         ImageAdapterNode.spin_adapter()
 
 
 if __name__ == '__main__':
-    try:0
-        isOdometry = str(input())
-        creta()
+    try:
+        create_adapter_node(true)
     except rospy.ROSInterruptException:
         pass
