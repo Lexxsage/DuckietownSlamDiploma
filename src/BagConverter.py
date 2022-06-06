@@ -8,7 +8,7 @@ import cv2
 import duckietown_code_utils as dtu
 import duckietown_rosdata_utils as dru
 
-class BagToTxtConverter():
+class BagConverter():
     def __init__(self):
         self.bagFile = rosbag.Bag("example.bag")
         self.wheelTxtFile = "TestBag.txt"
@@ -42,5 +42,5 @@ class BagToTxtConverter():
         self.convertImagesBagToJpg()
         self.writeImageTimeStamp()
 
-converter = BagToTxtConverter()
+converter = BagConverter()
 converter.convertOdometryBagToTxt()
