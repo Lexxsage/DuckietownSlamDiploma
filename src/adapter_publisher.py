@@ -5,62 +5,64 @@ from images_adapter import ImageAdapter
 from odometry_adapter import OdometryAdapter
 from std_msgs.msg import ByteMultiArray
 
-class ImageAdapterNode():
+class ImageAdapterPublisher():
 
     def __init__(self):
         # Initialize the node with rospy
-        rospy.init_node('adapter_node')
+        rospy.init_node('image_adapter_publisher_node')
         # Create publisher
-        self.publisher = rospy.Publisher("~imageTopic", ByteMultiArray,queue_size=100)
+        self.publisher = rospy.Publisher("~imageAdapterTopic", ByteMultiArray,queue_size=100)
         self.dir = roslib.packages.get_pkg_dir("duckietown_slam", required=True)
         self.input_folder = "dataset_dt"
+        self.imageAdapter = ImageAdapter()
 
 
     def callback(self, event):
         msg = ByteMultiArray()
         folder = self.dir + self.input_folder
-        msg.data = ImageAdapter.load_all_images_from_folder(folder)
+        msg.data = self.imageAdapter.load_all_images_from_folder(folder)
         self.publisher.publish(msg)
 
     def spin_adapter(self):
         # Read parameter
         pub_period = rospy.get_param("~pub_period",1.0)
         # Create timer
-        rospy.Timer(rospy.Duration.from_sec(pub_period),callback)
+        rospy.Timer(rospy.Duration.from_sec(pub_period), self.callback)
         # spin to keep the script for exiting
         rospy.spin()
 
-class OdometryAdapterNode():
+class OdometryAdapterPublisher():
 
     def __init__(self):
         # Initialize the node with rospy
-        rospy.init_node('adapter_node')
+        rospy.init_node('odometry_adapter_publisher_node')
         # Create publisher
-        self.publisher = rospy.Publisher("~odometryTopic", ByteMultiArray,queue_size=100)
+        self.publisher = rospy.Publisher("~odometryAdapterTopic", ByteMultiArray,queue_size=100)
         self.folder = "Text.txt"
+        self.odometryAdapter = OdometryAdapter()
 
     def callback(event):
         msg = ByteMultiArray()
         msg.data
-        w, y, theta = OdometryAdapter.load_odometry(self.folder)
+        w, y, theta = self.odometryAdapter.load_odometry(self.folder)
         publisher.publish(msg)
 
     def spin_adapter():
         # Read parameter
         pub_period = rospy.get_param("~pub_period",1.0)
         # Create timer
-        rospy.Timer(rospy.Duration.from_sec(pub_period),callback)
+        rospy.Timer(rospy.Duration.from_sec(pub_period), self.callback)
         # spin to keep the script for exiting
         rospy.spin()
 
 
-def create_adapter_node(isOdometry):
+def create_adapter_publisher(isOdometry):
     if (isOdometry):
-        OdometryAdapter.init()
-        OdometryAdapter.spin_adapter()
+        odometryAdapter = OdometryAdapterPublisher()
+        odometryAdapter.spin_adapter()
     else:
-        ImageAdapterNode.init()
-        ImageAdapterNode.spin_adapter()
+        imageAdapter = ImageAdapterPublisher()
+        imageAdapter.spin_adapter()
 
 
 if __name__ == '__main__':
