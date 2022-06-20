@@ -1,4 +1,4 @@
-# DuckietwonSlamDiploma
+# DuckietownSlamDiploma
 
 ![plot](SlamArchitecture.jpg)
 
